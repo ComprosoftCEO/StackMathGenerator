@@ -35,6 +35,8 @@ Public Class MainForm
     'Generate puzzle
     Private Sub GenerateButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GenerateButton.Click
 
+        Dim Picks As Integer = 0
+
 Repick:
         'Reset the size of the array
         ReDim StackNumbers(StackSizeNumericUpDown.Value - 1)
@@ -53,14 +55,23 @@ Repick:
             Dim Tempitem As Decimal = ValueResults.GetKey(i)
 
             'Only add the item if there is only 1 solution and the answer is an integer
-            If (Count = 1 And (Math.Floor(Tempitem) = Math.Ceiling(Tempitem)) And (Tempitem <= TargetMaxNumericUpDown.Value) And (Tempitem >= TargetMinNumericUpDown.Value)) Then
+            If (Count <= SolutionsNumericUpDown.Value And (Math.Floor(Tempitem) = Math.Ceiling(Tempitem)) And (Tempitem <= TargetMaxNumericUpDown.Value) And (Tempitem >= TargetMinNumericUpDown.Value)) Then
                 PickList.Add(Tempitem)
             End If
 
         Next
 
         'Make sure there is at least one value to pick from
-        If PickList.Count = 0 Then GoTo Repick
+        If PickList.Count = 0 Then
+            Picks += 1
+            If Picks < 5 Then
+                GoTo Repick
+            Else
+                MessageBox.Show("Unable to generate a puzzle with the given parameters.", "Problem Generating Puzzle.", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
+        End If
+
 
         'Choose a random number from 0 to count
         Dim Answer = Rand.Next(0, PickList.Count)
@@ -151,21 +162,28 @@ Repick:
         Dim Output As Decimal = StackNumbers(0)       'Output can be decimal
 
         'Loop through operations
-        For i = 0 To StackSizeNumericUpDown.Value - 2 Step 1
-            Select Case Operations(i)
-                Case 0
-                    Output += StackNumbers(i + 1)
-                Case 1
-                    Output -= StackNumbers(i + 1)
-                Case 2
-                    Output *= StackNumbers(i + 1)
-                Case 3
-                    Output /= StackNumbers(i + 1)
-            End Select
+            For i = 0 To StackSizeNumericUpDown.Value - 2 Step 1
+                Select Case Operations(i)
+                    Case 0
+                        Output += StackNumbers(i + 1)
+                    Case 1
+                        Output -= StackNumbers(i + 1)
+                    Case 2
+                        Output *= StackNumbers(i + 1)
+                    Case 3
+                        Output /= StackNumbers(i + 1)
+                End Select
 
-        Next
+            Next
 
-        Return Output
+
+            Try
+                Convert.ToInt64(Output)
+                Output = Convert.ToInt64(Output)
+            Catch ex As Exception
+            End Try
+
+            Return Output
 
     End Function
 

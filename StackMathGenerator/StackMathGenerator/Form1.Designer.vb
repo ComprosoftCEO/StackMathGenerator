@@ -44,12 +44,15 @@ Partial Class MainForm
         Me.TargetMinNumericUpDown = New System.Windows.Forms.NumericUpDown()
         Me.TargetMaxNumericUpDown = New System.Windows.Forms.NumericUpDown()
         Me.ProgrammerLabel = New System.Windows.Forms.Label()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.SolutionsNumericUpDown = New System.Windows.Forms.NumericUpDown()
         Me.PuzzleGroupBox.SuspendLayout()
         CType(Me.StackSizeNumericUpDown, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LowRangeNumericUpDown, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.HighRangeNumericUpDown, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TargetMinNumericUpDown, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TargetMaxNumericUpDown, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.SolutionsNumericUpDown, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'StackMathLabel
@@ -176,7 +179,7 @@ Partial Class MainForm
         '
         'CopyButton
         '
-        Me.CopyButton.Location = New System.Drawing.Point(125, 508)
+        Me.CopyButton.Location = New System.Drawing.Point(125, 521)
         Me.CopyButton.Name = "CopyButton"
         Me.CopyButton.Size = New System.Drawing.Size(136, 25)
         Me.CopyButton.TabIndex = 10
@@ -273,6 +276,26 @@ Partial Class MainForm
         Me.ProgrammerLabel.Text = "Programmed by; Comprosoft_CEO" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(Bryan McClain)"
         Me.ProgrammerLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(29, 485)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(74, 18)
+        Me.Label1.TabIndex = 21
+        Me.Label1.Text = "Solutions:"
+        '
+        'SolutionsNumericUpDown
+        '
+        Me.SolutionsNumericUpDown.Location = New System.Drawing.Point(113, 487)
+        Me.SolutionsNumericUpDown.Maximum = New Decimal(New Integer() {100000000, 0, 0, 0})
+        Me.SolutionsNumericUpDown.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.SolutionsNumericUpDown.Name = "SolutionsNumericUpDown"
+        Me.SolutionsNumericUpDown.Size = New System.Drawing.Size(46, 20)
+        Me.SolutionsNumericUpDown.TabIndex = 22
+        Me.SolutionsNumericUpDown.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
         'MainForm
         '
         Me.AcceptButton = Me.GenerateButton
@@ -280,6 +303,8 @@ Partial Class MainForm
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(102, Byte), Integer), CType(CType(153, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(387, 561)
+        Me.Controls.Add(Me.SolutionsNumericUpDown)
+        Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.ProgrammerLabel)
         Me.Controls.Add(Me.TargetMaxNumericUpDown)
         Me.Controls.Add(Me.ToLabel2)
@@ -308,6 +333,7 @@ Partial Class MainForm
         CType(Me.HighRangeNumericUpDown, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TargetMinNumericUpDown, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TargetMaxNumericUpDown, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.SolutionsNumericUpDown, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -334,5 +360,7 @@ Partial Class MainForm
     Friend WithEvents TargetMinNumericUpDown As System.Windows.Forms.NumericUpDown
     Friend WithEvents TargetMaxNumericUpDown As System.Windows.Forms.NumericUpDown
     Friend WithEvents ProgrammerLabel As System.Windows.Forms.Label
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents SolutionsNumericUpDown As System.Windows.Forms.NumericUpDown
 
 End Class
