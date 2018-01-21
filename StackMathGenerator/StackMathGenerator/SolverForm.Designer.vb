@@ -22,9 +22,11 @@ Partial Class SolverForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(SolverForm))
         Me.StackMathLabel = New System.Windows.Forms.Label()
         Me.PuzzleSolverLabel = New System.Windows.Forms.Label()
         Me.PuzzleSolverGroupBox = New System.Windows.Forms.GroupBox()
+        Me.ClearButton = New System.Windows.Forms.Button()
         Me.UpdateButton = New System.Windows.Forms.Button()
         Me.SolveButton = New System.Windows.Forms.Button()
         Me.SolutionsTextBox = New System.Windows.Forms.TextBox()
@@ -42,7 +44,6 @@ Partial Class SolverForm
         Me.ShapeContainer1 = New Microsoft.VisualBasic.PowerPacks.ShapeContainer()
         Me.DividingLine = New Microsoft.VisualBasic.PowerPacks.LineShape()
         Me.CopyButton = New System.Windows.Forms.Button()
-        Me.ClearButton = New System.Windows.Forms.Button()
         Me.PuzzleSolverGroupBox.SuspendLayout()
         CType(Me.AddStackNumericUpDown, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -90,6 +91,15 @@ Partial Class SolverForm
         Me.PuzzleSolverGroupBox.Size = New System.Drawing.Size(551, 292)
         Me.PuzzleSolverGroupBox.TabIndex = 6
         Me.PuzzleSolverGroupBox.TabStop = False
+        '
+        'ClearButton
+        '
+        Me.ClearButton.Location = New System.Drawing.Point(210, 230)
+        Me.ClearButton.Name = "ClearButton"
+        Me.ClearButton.Size = New System.Drawing.Size(82, 39)
+        Me.ClearButton.TabIndex = 26
+        Me.ClearButton.Text = "Clear Input"
+        Me.ClearButton.UseVisualStyleBackColor = True
         '
         'UpdateButton
         '
@@ -254,15 +264,6 @@ Partial Class SolverForm
         Me.CopyButton.Text = "Copy Solution(s) to Clipboard"
         Me.CopyButton.UseVisualStyleBackColor = True
         '
-        'ClearButton
-        '
-        Me.ClearButton.Location = New System.Drawing.Point(210, 230)
-        Me.ClearButton.Name = "ClearButton"
-        Me.ClearButton.Size = New System.Drawing.Size(82, 39)
-        Me.ClearButton.TabIndex = 26
-        Me.ClearButton.Text = "Clear Input"
-        Me.ClearButton.UseVisualStyleBackColor = True
-        '
         'SolverForm
         '
         Me.AcceptButton = Me.SolveButton
@@ -275,6 +276,7 @@ Partial Class SolverForm
         Me.Controls.Add(Me.PuzzleSolverLabel)
         Me.Controls.Add(Me.StackMathLabel)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.Name = "SolverForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen

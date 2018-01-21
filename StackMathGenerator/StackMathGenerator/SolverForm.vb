@@ -73,6 +73,8 @@
         If MessageBox.Show("Clear Puzzle Input?", "Clear Input?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
             TargetTextBox.Clear()
             StackListBox.Items.Clear()
+            SolutionsTextBox.Clear()
+            SolutionsListBox.Items.Clear()
         End If
 
     End Sub
@@ -247,36 +249,29 @@
 
 
     'Copy solutions to clipboard
-    Private Sub CopyButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub CopyButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CopyButton.Click
         'Make sure that there are solutions to copy
-        If Not SolutionsListBox.Items.Count = 0 Then
+        If Not SolutionsTextBox.Text = "" Then
 
+            Dim str As String = ""
 
-            'Make sure a puzzle is generated first
-            If Not StackListBox.Items.Count < 1 Then
+            'Add the stack to the string
+            str += "Stack Numbers:" & Environment.NewLine
+            For i = 0 To StackListBox.Items.Count - 1
+                str += StackListBox.Items.Item(i) & Environment.NewLine
+            Next
 
-                Dim str As String = ""
+            'Add the target number
+            str += Environment.NewLine & "Target Number: " & TargetTextBox.Text.ToString & Environment.NewLine & Environment.NewLine
 
-                'Add the stack to the string
-                str += "Stack Numbers:" & Environment.NewLine
-                For i = 0 To StackListBox.Items.Count - 1
-                    str += StackListBox.Items.Item(i) & Environment.NewLine
-                Next
+            'Add the number of solutions
+            str += "Solutions: " & SolutionsTextBox.Text.ToString & Environment.NewLine
 
-                'Add the target number
-                str += Environment.NewLine & "Target Number: " & TargetTextBox.Text.ToString & Environment.NewLine & Environment.NewLine
+            For i = 0 To SolutionsListBox.Items.Count - 1
+                str += (SolutionsListBox.Items.Item(i).ToString) & Environment.NewLine
+            Next
 
-                'Add the number of solutions
-                str += "Solutions: " & SolutionsTextBox.Text.ToString & Environment.NewLine
-
-                For i = 0 To SolutionsListBox.Items.Count - 1
-                    str += (SolutionsListBox.Items.Item(i).ToString) & Environment.NewLine
-                Next
-
-                Clipboard.SetText(str)
-            Else
-                MessageBox.Show("Please generate a puzzle first.", "Generate Puzzle First", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            End If
+            Clipboard.SetText(str)
 
         Else
             MessageBox.Show("No solutions to copy.", "No Solutions", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)

@@ -22,12 +22,17 @@ Partial Class MainForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainForm))
         Me.StackMathLabel = New System.Windows.Forms.Label()
         Me.PuzzleGeneratorLabel = New System.Windows.Forms.Label()
         Me.StackListBox = New System.Windows.Forms.ListBox()
         Me.StackLabel = New System.Windows.Forms.Label()
         Me.TargetTextBox = New System.Windows.Forms.TextBox()
         Me.PuzzleGroupBox = New System.Windows.Forms.GroupBox()
+        Me.AnswerPanel = New System.Windows.Forms.Panel()
+        Me.AnswersLabel = New System.Windows.Forms.Label()
+        Me.AnswerTextBox = New System.Windows.Forms.TextBox()
+        Me.AnswerListBox = New System.Windows.Forms.ListBox()
         Me.AnswerCheckBox = New System.Windows.Forms.CheckBox()
         Me.TargetNumberLabel = New System.Windows.Forms.Label()
         Me.GenerateButton = New System.Windows.Forms.Button()
@@ -46,19 +51,17 @@ Partial Class MainForm
         Me.Label1 = New System.Windows.Forms.Label()
         Me.SolutionsNumericUpDown = New System.Windows.Forms.NumericUpDown()
         Me.SolverButton = New System.Windows.Forms.Button()
-        Me.AnswerPanel = New System.Windows.Forms.Panel()
-        Me.AnswersLabel = New System.Windows.Forms.Label()
-        Me.AnswerTextBox = New System.Windows.Forms.TextBox()
-        Me.AnswerListBox = New System.Windows.Forms.ListBox()
         Me.LoadingLabel = New System.Windows.Forms.Label()
+        Me.SeedDateTimePicker = New System.Windows.Forms.DateTimePicker()
+        Me.SetDateSeedButton = New System.Windows.Forms.Button()
         Me.PuzzleGroupBox.SuspendLayout()
+        Me.AnswerPanel.SuspendLayout()
         CType(Me.StackSizeNumericUpDown, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LowRangeNumericUpDown, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.HighRangeNumericUpDown, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TargetMinNumericUpDown, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TargetMaxNumericUpDown, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SolutionsNumericUpDown, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.AnswerPanel.SuspendLayout()
         Me.SuspendLayout()
         '
         'StackMathLabel
@@ -125,6 +128,48 @@ Partial Class MainForm
         Me.PuzzleGroupBox.TabIndex = 5
         Me.PuzzleGroupBox.TabStop = False
         '
+        'AnswerPanel
+        '
+        Me.AnswerPanel.Controls.Add(Me.AnswersLabel)
+        Me.AnswerPanel.Controls.Add(Me.AnswerTextBox)
+        Me.AnswerPanel.Controls.Add(Me.AnswerListBox)
+        Me.AnswerPanel.Location = New System.Drawing.Point(193, 140)
+        Me.AnswerPanel.Name = "AnswerPanel"
+        Me.AnswerPanel.Size = New System.Drawing.Size(156, 100)
+        Me.AnswerPanel.TabIndex = 7
+        Me.AnswerPanel.Visible = False
+        '
+        'AnswersLabel
+        '
+        Me.AnswersLabel.AutoSize = True
+        Me.AnswersLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.AnswersLabel.Location = New System.Drawing.Point(11, 7)
+        Me.AnswersLabel.Name = "AnswersLabel"
+        Me.AnswersLabel.Size = New System.Drawing.Size(69, 18)
+        Me.AnswersLabel.TabIndex = 28
+        Me.AnswersLabel.Text = "Answers:"
+        '
+        'AnswerTextBox
+        '
+        Me.AnswerTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.AnswerTextBox.Location = New System.Drawing.Point(91, 4)
+        Me.AnswerTextBox.MaxLength = 255
+        Me.AnswerTextBox.Name = "AnswerTextBox"
+        Me.AnswerTextBox.ReadOnly = True
+        Me.AnswerTextBox.Size = New System.Drawing.Size(55, 22)
+        Me.AnswerTextBox.TabIndex = 27
+        '
+        'AnswerListBox
+        '
+        Me.AnswerListBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.AnswerListBox.FormattingEnabled = True
+        Me.AnswerListBox.ItemHeight = 20
+        Me.AnswerListBox.Location = New System.Drawing.Point(11, 33)
+        Me.AnswerListBox.Name = "AnswerListBox"
+        Me.AnswerListBox.SelectionMode = System.Windows.Forms.SelectionMode.None
+        Me.AnswerListBox.Size = New System.Drawing.Size(135, 64)
+        Me.AnswerListBox.TabIndex = 29
+        '
         'AnswerCheckBox
         '
         Me.AnswerCheckBox.AutoSize = True
@@ -148,9 +193,9 @@ Partial Class MainForm
         'GenerateButton
         '
         Me.GenerateButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GenerateButton.Location = New System.Drawing.Point(263, 413)
+        Me.GenerateButton.Location = New System.Drawing.Point(261, 425)
         Me.GenerateButton.Name = "GenerateButton"
-        Me.GenerateButton.Size = New System.Drawing.Size(134, 50)
+        Me.GenerateButton.Size = New System.Drawing.Size(152, 50)
         Me.GenerateButton.TabIndex = 6
         Me.GenerateButton.Text = "Generate New Puzzle"
         Me.GenerateButton.UseVisualStyleBackColor = True
@@ -177,9 +222,9 @@ Partial Class MainForm
         '
         'CopyButton
         '
-        Me.CopyButton.Location = New System.Drawing.Point(144, 551)
+        Me.CopyButton.Location = New System.Drawing.Point(22, 560)
         Me.CopyButton.Name = "CopyButton"
-        Me.CopyButton.Size = New System.Drawing.Size(136, 25)
+        Me.CopyButton.Size = New System.Drawing.Size(155, 25)
         Me.CopyButton.TabIndex = 10
         Me.CopyButton.Text = "Copy Puzzle to Clipboard"
         Me.CopyButton.UseVisualStyleBackColor = True
@@ -296,55 +341,13 @@ Partial Class MainForm
         '
         'SolverButton
         '
-        Me.SolverButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SolverButton.Location = New System.Drawing.Point(264, 481)
+        Me.SolverButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SolverButton.Location = New System.Drawing.Point(244, 560)
         Me.SolverButton.Name = "SolverButton"
-        Me.SolverButton.Size = New System.Drawing.Size(134, 50)
+        Me.SolverButton.Size = New System.Drawing.Size(159, 25)
         Me.SolverButton.TabIndex = 23
         Me.SolverButton.Text = "Solver"
         Me.SolverButton.UseVisualStyleBackColor = True
-        '
-        'AnswerPanel
-        '
-        Me.AnswerPanel.Controls.Add(Me.AnswersLabel)
-        Me.AnswerPanel.Controls.Add(Me.AnswerTextBox)
-        Me.AnswerPanel.Controls.Add(Me.AnswerListBox)
-        Me.AnswerPanel.Location = New System.Drawing.Point(193, 140)
-        Me.AnswerPanel.Name = "AnswerPanel"
-        Me.AnswerPanel.Size = New System.Drawing.Size(156, 100)
-        Me.AnswerPanel.TabIndex = 7
-        Me.AnswerPanel.Visible = False
-        '
-        'AnswersLabel
-        '
-        Me.AnswersLabel.AutoSize = True
-        Me.AnswersLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.AnswersLabel.Location = New System.Drawing.Point(11, 7)
-        Me.AnswersLabel.Name = "AnswersLabel"
-        Me.AnswersLabel.Size = New System.Drawing.Size(69, 18)
-        Me.AnswersLabel.TabIndex = 28
-        Me.AnswersLabel.Text = "Answers:"
-        '
-        'AnswerTextBox
-        '
-        Me.AnswerTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.AnswerTextBox.Location = New System.Drawing.Point(91, 4)
-        Me.AnswerTextBox.MaxLength = 255
-        Me.AnswerTextBox.Name = "AnswerTextBox"
-        Me.AnswerTextBox.ReadOnly = True
-        Me.AnswerTextBox.Size = New System.Drawing.Size(55, 22)
-        Me.AnswerTextBox.TabIndex = 27
-        '
-        'AnswerListBox
-        '
-        Me.AnswerListBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.AnswerListBox.FormattingEnabled = True
-        Me.AnswerListBox.ItemHeight = 20
-        Me.AnswerListBox.Location = New System.Drawing.Point(11, 33)
-        Me.AnswerListBox.Name = "AnswerListBox"
-        Me.AnswerListBox.SelectionMode = System.Windows.Forms.SelectionMode.None
-        Me.AnswerListBox.Size = New System.Drawing.Size(135, 64)
-        Me.AnswerListBox.TabIndex = 29
         '
         'LoadingLabel
         '
@@ -358,13 +361,35 @@ Partial Class MainForm
         Me.LoadingLabel.Text = "Loading, Please Wait..."
         Me.LoadingLabel.Visible = False
         '
+        'SeedDateTimePicker
+        '
+        Me.SeedDateTimePicker.CustomFormat = ""
+        Me.SeedDateTimePicker.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SeedDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.SeedDateTimePicker.Location = New System.Drawing.Point(261, 493)
+        Me.SeedDateTimePicker.Name = "SeedDateTimePicker"
+        Me.SeedDateTimePicker.Size = New System.Drawing.Size(96, 22)
+        Me.SeedDateTimePicker.TabIndex = 25
+        Me.SeedDateTimePicker.Value = New Date(2016, 6, 1, 15, 20, 0, 0)
+        '
+        'SetDateSeedButton
+        '
+        Me.SetDateSeedButton.Location = New System.Drawing.Point(363, 493)
+        Me.SetDateSeedButton.Name = "SetDateSeedButton"
+        Me.SetDateSeedButton.Size = New System.Drawing.Size(48, 22)
+        Me.SetDateSeedButton.TabIndex = 26
+        Me.SetDateSeedButton.Text = "Seed"
+        Me.SetDateSeedButton.UseVisualStyleBackColor = True
+        '
         'MainForm
         '
         Me.AcceptButton = Me.GenerateButton
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(102, Byte), Integer), CType(CType(153, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.ClientSize = New System.Drawing.Size(425, 585)
+        Me.ClientSize = New System.Drawing.Size(425, 596)
+        Me.Controls.Add(Me.SetDateSeedButton)
+        Me.Controls.Add(Me.SeedDateTimePicker)
         Me.Controls.Add(Me.LoadingLabel)
         Me.Controls.Add(Me.SolverButton)
         Me.Controls.Add(Me.SolutionsNumericUpDown)
@@ -386,20 +411,21 @@ Partial Class MainForm
         Me.Controls.Add(Me.PuzzleGeneratorLabel)
         Me.Controls.Add(Me.StackMathLabel)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.Name = "MainForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Stack Math Puzzle Generator"
         Me.PuzzleGroupBox.ResumeLayout(False)
         Me.PuzzleGroupBox.PerformLayout()
+        Me.AnswerPanel.ResumeLayout(False)
+        Me.AnswerPanel.PerformLayout()
         CType(Me.StackSizeNumericUpDown, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LowRangeNumericUpDown, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.HighRangeNumericUpDown, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TargetMinNumericUpDown, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TargetMaxNumericUpDown, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.SolutionsNumericUpDown, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.AnswerPanel.ResumeLayout(False)
-        Me.AnswerPanel.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -433,5 +459,7 @@ Partial Class MainForm
     Friend WithEvents AnswerTextBox As System.Windows.Forms.TextBox
     Friend WithEvents AnswerListBox As System.Windows.Forms.ListBox
     Friend WithEvents LoadingLabel As System.Windows.Forms.Label
+    Friend WithEvents SeedDateTimePicker As System.Windows.Forms.DateTimePicker
+    Friend WithEvents SetDateSeedButton As System.Windows.Forms.Button
 
 End Class

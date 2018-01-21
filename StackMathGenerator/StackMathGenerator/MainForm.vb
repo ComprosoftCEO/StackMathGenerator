@@ -10,6 +10,14 @@ Public Class MainForm
     Dim PickList As List(Of Decimal) = New List(Of Decimal)
 
 
+    'Form load
+    Private Sub MainForm_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        'Set the date picker to the current date
+        SeedDateTimePicker.Value = Date.Today
+
+    End Sub
+
+
     'Switch the visibility of the answer text box
     Private Sub AnswerCheckBox_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AnswerCheckBox.CheckedChanged
 
@@ -32,9 +40,42 @@ Public Class MainForm
         TargetMinNumericUpDown.Maximum = sender.value - 1
     End Sub
 
-    'Generate puzzle
+
+    '--------------Generate-----------------
+
+
+    'Generate puzzle button
     Private Sub GenerateButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GenerateButton.Click
 
+        'Set the seed to a random value
+        Rand = New Random()
+
+        'Then generate
+        GeneratePuzzle()
+
+    End Sub
+
+
+    'Seed Button
+    Private Sub SetDateSeedButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SetDateSeedButton.Click
+
+        'Set the seed based on the date and all of the parameters
+        Dim Seed As String = String.Format("{0:MMddyyyy}", SeedDateTimePicker.Value)
+
+        'The seed is also dependent on the stack size
+        Seed = StackSizeNumericUpDown.Value & Seed
+
+        Rand = New Random(Convert.ToInt32(Seed))
+
+        'Then generate the puzzle
+        GeneratePuzzle()
+
+    End Sub
+
+    'Generates the puzzle
+    Sub GeneratePuzzle()
+
+        'Show the loading bar
         LoadingLabel.Visible = True
         Application.DoEvents()
 
@@ -120,6 +161,7 @@ Repick:
 
     End Sub
 
+
     'Fills the stack numbers array with random numbers
     Sub PickRandomNumbers()
 
@@ -129,6 +171,7 @@ Repick:
         Next
 
     End Sub
+
 
     'Gets all possible target number outputs
     Sub GetAllOutputs()
@@ -178,6 +221,7 @@ Repick:
 
     End Sub
 
+
     'Calculate the value from the stack array and operations list
     Function CalculateValue()
 
@@ -210,6 +254,7 @@ Repick:
 
     End Function
 
+
     'Update the operations
     Function UpdateOperations()
 
@@ -241,6 +286,7 @@ Repick:
 
     End Function
 
+
     'Returns the ascii character for the operation
     Function GetOperationChar(ByVal input As Integer)
         Select Case input
@@ -257,6 +303,8 @@ Repick:
         End Select
     End Function
 
+
+    '-----------Other Buttons-----------------
 
 
     'Copy text to clipboard
@@ -296,4 +344,6 @@ Repick:
     Private Sub SolverButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SolverButton.Click
         SolverForm.Show()
     End Sub
+
+
 End Class
