@@ -2,18 +2,32 @@
 
 Public Class MainForm
 
-    Dim Rand As New Random          'Random Number variable
+    Friend Rand As New Random          'Random Number variable
     Dim StackNumbers() As Integer   'Numbers located on the stack
-    Dim ValueResults As NameValueCollection = New NameValueCollection     'List of all possible values
-    Dim OperationResults As NameValueCollection = New NameValueCollection   'What operations were done to get this output
-    Dim Operations() As Integer                   'List of current operations
-    Dim PickList As List(Of Decimal) = New List(Of Decimal)
+    Friend ValueResults As NameValueCollection = New NameValueCollection     'List of all possible values
+    Friend OperationResults As NameValueCollection = New NameValueCollection   'What operations were done to get this output
+    Friend Operations() As Integer                   'List of current operations
+    Friend PickList As List(Of Decimal) = New List(Of Decimal)
+    Friend Answer As Integer = 0
 
+    'Parameters for the algorithm
+    Dim StackSize As Integer = 0
+    Dim StackLowRange As Byte = 0
+    Dim StackHighRange As Byte = 0
+    Dim LowTarget As Integer = 0
+    Dim HighTarget As Integer = 0
+    Dim Solutions As Integer = 0
 
     'Form load
     Private Sub MainForm_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         'Set the date picker to the current date
         SeedDateTimePicker.Value = Date.Today
+
+        'Set the default difficulty
+        DifficultyComboBox.SelectedIndex = 1
+
+        'Set the random stack combo box
+        StackModeComboBox.SelectedIndex = 0
 
     End Sub
 
@@ -47,6 +61,9 @@ Public Class MainForm
     'Generate puzzle button
     Private Sub GenerateButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GenerateButton.Click
 
+        'Start by getting the function parameters
+        GetGenerationParameters()
+
         'Set the seed to a random value
         Rand = New Random()
 
@@ -59,11 +76,14 @@ Public Class MainForm
     'Seed Button
     Private Sub SetDateSeedButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SetDateSeedButton.Click
 
+        'Start by getting the function parameters
+        GetGenerationParameters()
+
         'Set the seed based on the date and all of the parameters
         Dim Seed As String = String.Format("{0:MMddyyyy}", SeedDateTimePicker.Value)
 
         'The seed is also dependent on the stack size
-        Seed = StackSizeNumericUpDown.Value & Seed
+        Seed = (StackSize + 1) & Seed
 
         Rand = New Random(Convert.ToInt32(Seed))
 
@@ -72,24 +92,109 @@ Public Class MainForm
 
     End Sub
 
+
+    'Set up the parameters of the algorithm
+    Sub GetGenerationParameters()
+
+
+        If AdvancedModeRadioButton.Checked = True Then
+
+            'Get the size of the stack
+            If RandomMode() = True Then
+                StackSize = StackSizeNumericUpDown.Value - 1
+            Else
+                StackSize = StackListBox.Items.Count - 1
+            End If
+
+            StackLowRange = LowRangeNumericUpDown.Value
+            StackHighRange = HighRangeNumericUpDown.Value
+
+            LowTarget = TargetMinNumericUpDown.Value
+            HighTarget = TargetMaxNumericUpDown.Value
+
+            Solutions = SolutionsNumericUpDown.Value
+        Else
+
+            Select Case DifficultyComboBox.SelectedIndex
+                Case 0      'Easy
+                    StackSize = 4
+                    StackLowRange = 1
+                    StackHighRange = 9
+                    LowTarget = 1
+                    HighTarget = 50
+                    Solutions = 1
+                Case 1      'Normal
+                    StackSize = 5
+                    StackLowRange = 1
+                    StackHighRange = 9
+                    LowTarget = 1
+                    HighTarget = 100
+                    Solutions = 1
+                Case 2      'Intermediate
+                    StackSize = 6
+                    StackLowRange = 1
+                    StackHighRange = 9
+                    LowTarget = 1
+                    HighTarget = 250
+                    Solutions = 1
+                Case 3      'Advanced
+                    StackSize = 7
+                    StackLowRange = 1
+                    StackHighRange = 9
+                    LowTarget = 1
+                    HighTarget = 500
+                    Solutions = 1
+
+                Case 4      'Expert
+                    StackSize = 9
+                    StackLowRange = 1
+                    StackHighRange = 9
+                    LowTarget = 1
+                    HighTarget = 1000
+                    Solutions = 1
+            End Select
+
+        End If
+
+    End Sub
+
+
+
     'Generates the puzzle
     Sub GeneratePuzzle()
 
         'Show the loading bar
         LoadingLabel.Visible = True
-        Application.DoEvents()
+        Me.Refresh()
 
         Dim Picks As Integer = 0
 
 Repick:
-        'Reset the size of the array
-        ReDim StackNumbers(StackSizeNumericUpDown.Value - 1)
+
+
+        ReDim StackNumbers(StackSize)
+
 
         'Pick the random numbers
-        PickRandomNumbers()
+        If RandomMode() = True Or AdvancedModeRadioButton.Checked = False Then
+            PickRandomNumbers()
+        Else
+            'Test to make sure there are enough numbers
+            If StackListBox.Items.Count < 4 Then
+                MessageBox.Show("Please input at least 4 numbers into the stack.", "Input 4 Numbers", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                LoadingLabel.Visible = False
+                Exit Sub
+            End If
+
+            For i = 0 To StackListBox.Items.Count - 1
+                StackNumbers(i) = StackListBox.Items.Item(i)
+            Next
+        End If
+
 
         'Cycle through all possible values
         GetAllOutputs()
+
 
         'Find the output value to use
         PickList.Clear()
@@ -99,7 +204,7 @@ Repick:
             Dim Tempitem As Decimal = ValueResults.GetKey(i)
 
             'Only add the item if there is only 1 solution and the answer is an integer
-            If (Count <= SolutionsNumericUpDown.Value And (Math.Floor(Tempitem) = Math.Ceiling(Tempitem)) And (Tempitem <= TargetMaxNumericUpDown.Value) And (Tempitem >= TargetMinNumericUpDown.Value)) Then
+            If (Count <= Solutions And (Math.Floor(Tempitem) = Math.Ceiling(Tempitem)) And (Tempitem <= HighTarget) And (Tempitem >= LowTarget)) Then
                 PickList.Add(Tempitem)
             End If
 
@@ -109,7 +214,7 @@ Repick:
         If PickList.Count = 0 Then
             Picks += 1
             'Try 3 times to generate
-            If Picks < 3 Then
+            If (Picks < 3) And (RandomMode() = True) Then
                 GoTo Repick
             Else
                 MessageBox.Show("Unable to generate a puzzle with the given parameters.", "Problem Generating Puzzle.", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -119,8 +224,26 @@ Repick:
         End If
 
 
+        'Export the list of numbers
+        StackListBox.Items.Clear()
+        For i = 0 To StackSize
+            StackListBox.Items.Add(StackNumbers(i))
+        Next
+        Me.Refresh()
+
+
         'Choose a random number from 0 to count
-        Dim Answer = Rand.Next(0, PickList.Count)
+        If AdvancedModeRadioButton.Checked = True And ChooseTargetCheckBox.Checked = True Then
+
+            'Bring up the choose form
+            If TargetForm.ShowDialog = Windows.Forms.DialogResult.Cancel Then
+                'If abborted, pick random answer
+                Answer = Rand.Next(0, PickList.Count)
+            End If
+        Else
+            Answer = Rand.Next(0, PickList.Count)
+        End If
+
 
 
         'Export the target number
@@ -144,14 +267,10 @@ Repick:
 
         'Show the number of answers
         AnswerTextBox.Text = AnswerListBox.Items.Count
+        Me.Refresh()
 
 
 
-        'Export the list of numbers
-        StackListBox.Items.Clear()
-        For i = 0 To StackSizeNumericUpDown.Value - 1
-            StackListBox.Items.Add(StackNumbers(i))
-        Next
 
         'Hide the answer
         AnswerCheckBox.Checked = False
@@ -166,8 +285,8 @@ Repick:
     Sub PickRandomNumbers()
 
         'Run the loop to pick a set of random numbers
-        For i = 0 To StackSizeNumericUpDown.Value - 1 Step 1
-            StackNumbers(i) = Rand.Next(LowRangeNumericUpDown.Value, HighRangeNumericUpDown.Value + 1)
+        For i = 0 To StackSize Step 1
+            StackNumbers(i) = Rand.Next(StackLowRange, StackHighRange + 1)
         Next
 
     End Sub
@@ -181,7 +300,7 @@ Repick:
         '1 = -
         '2 = *
         '3 = /
-        ReDim Operations(StackSizeNumericUpDown.Value - 2)
+        ReDim Operations(StackSize - 1)
 
         'Clear the list of all possible values/operations
         ValueResults.Clear()
@@ -203,7 +322,7 @@ Repick:
 
             'Keep track of the operation used to get this number
             Dim OperationString As String = ""      'Temp string variable
-            For i = 0 To StackSizeNumericUpDown.Value - 2
+            For i = 0 To StackSize - 1
                 OperationString += GetOperationChar(Operations(i))
             Next
 
@@ -229,19 +348,19 @@ Repick:
         Dim Output As Decimal = StackNumbers(0)       'Output can be decimal
 
         'Loop through operations
-            For i = 0 To StackSizeNumericUpDown.Value - 2 Step 1
-                Select Case Operations(i)
-                    Case 0
-                        Output += StackNumbers(i + 1)
-                    Case 1
-                        Output -= StackNumbers(i + 1)
-                    Case 2
-                        Output *= StackNumbers(i + 1)
-                    Case 3
-                        Output /= StackNumbers(i + 1)
-                End Select
+        For i = 0 To StackSize - 1 Step 1
+            Select Case Operations(i)
+                Case 0
+                    Output += StackNumbers(i + 1)
+                Case 1
+                    Output -= StackNumbers(i + 1)
+                Case 2
+                    Output *= StackNumbers(i + 1)
+                Case 3
+                    Output /= StackNumbers(i + 1)
+            End Select
 
-            Next
+        Next
 
 
             Try
@@ -273,7 +392,7 @@ Repick:
                 i += 1
 
                 'Run the loop until there are no more operations
-                If i = StackSizeNumericUpDown.Value - 1 Then
+                If i = StackSize Then
                     Break = True
                     ReturnType = True
                 End If
@@ -311,7 +430,7 @@ Repick:
     Private Sub CopyButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CopyButton.Click
 
         'Make sure a puzzle is generated first
-        If Not StackListBox.Items.Count < 1 Then
+        If Not (StackListBox.Items.Count < 1 Or TargetTextBox.Text = "" Or AnswerTextBox.Text = "" Or AnswerListBox.Items.Count < 1) Then
 
             Dim str As String = ""
 
@@ -334,6 +453,7 @@ Repick:
             End If
 
             Clipboard.SetText(str)
+            MessageBox.Show("Puzzle copied to clipboard", "Puzzle Copied", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
             MessageBox.Show("Please generate a puzzle first.", "Generate Puzzle First", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
@@ -344,6 +464,145 @@ Repick:
     Private Sub SolverButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SolverButton.Click
         SolverForm.Show()
     End Sub
+
+
+
+
+    '-----------Basic and Advanced----------------
+
+    'Basic Mode and Advanced Mode
+    Private Sub BasicAdvancedMode(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BasicModeRadioButton.CheckedChanged, AdvancedModeRadioButton.CheckedChanged
+
+        'Switch between advanced and basic mode
+        AdvancedPanel.Visible = AdvancedModeRadioButton.Checked
+        DifficultyLabel.Visible = BasicModeRadioButton.Checked
+        DifficultyComboBox.Visible = BasicModeRadioButton.Checked
+
+        'Make sure to turn off the selection mode
+        If AdvancedModeRadioButton.Checked = False Then
+            StackListBox.SelectionMode = SelectionMode.None
+        Else
+            StackModeComboBox_SelectedIndexChanged(sender, e)
+        End If
+
+    End Sub
+
+    'Stack Mode
+    Private Sub StackModeComboBox_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StackModeComboBox.SelectedIndexChanged
+        Select Case StackModeComboBox.SelectedIndex
+            Case 0      'Random Stack Mode
+                RandomStackPanel.Visible = True
+                CustomStackPanel.Visible = False
+                StackListBox.SelectionMode = SelectionMode.None
+            Case 1
+                RandomStackPanel.Visible = False
+                CustomStackPanel.Visible = True
+                StackListBox.SelectionMode = SelectionMode.One
+        End Select
+        ClearFormItems()
+    End Sub
+
+
+
+
+    '------------Stack Commands--------------
+
+    'Add Number to Stack
+    Private Sub AddButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AddButton.Click
+        'Only have a max of 10 numbers
+        If StackListBox.Items.Count < 10 Then
+            StackListBox.Items.Add(AddStackNumericUpDown.Value)
+        Else
+            MessageBox.Show("You can only have a maximum of 10 numbers on the stack.", "10 Numbers Max", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        End If
+
+        ClearFormItems()
+    End Sub
+
+    'Update the selected value
+    Private Sub UpdateButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UpdateButton.Click
+        'Test to make sure a value is selected
+        If Not StackListBox.SelectedIndex = -1 Then
+            StackListBox.Items.Item(StackListBox.SelectedIndex) = AddStackNumericUpDown.Value
+
+        Else
+            MessageBox.Show("Please select an item to update.", "Select Item to Update", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        End If
+        ClearFormItems()
+    End Sub
+
+    'Remove selected number from stack
+    Private Sub RemoveButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RemoveButton.Click
+        'Make sure an item is selected
+        If Not StackListBox.SelectedIndex = -1 Then
+            StackListBox.Items.RemoveAt(StackListBox.SelectedIndex)
+        Else
+            MessageBox.Show("Please select an item to remove.", "Select Item to Remove", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        End If
+        ClearFormItems()
+    End Sub
+
+    'Move item up
+    Private Sub MoveUpButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MoveUpButton.Click
+        'Make sure an item is selected first
+        If Not (StackListBox.SelectedIndex = -1 Or StackListBox.SelectedIndex = 0) Then
+
+            Dim TempItem As String = StackListBox.Items.Item(StackListBox.SelectedIndex - 1)
+            StackListBox.Items.Item(StackListBox.SelectedIndex - 1) = StackListBox.Items.Item(StackListBox.SelectedIndex)
+            StackListBox.Items.Item(StackListBox.SelectedIndex) = TempItem
+
+            'Update the selected index
+            StackListBox.SelectedIndex = StackListBox.SelectedIndex - 1
+
+            ClearFormItems()
+
+        End If
+    End Sub
+
+    'Move item down
+    Private Sub MoveDownButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MoveDownButton.Click
+        'Make sure an item is selected first
+        If Not (StackListBox.SelectedIndex = -1 Or StackListBox.SelectedIndex = (StackListBox.Items.Count - 1)) Then
+
+            Dim TempItem As String = StackListBox.Items.Item(StackListBox.SelectedIndex + 1)
+            StackListBox.Items.Item(StackListBox.SelectedIndex + 1) = StackListBox.Items.Item(StackListBox.SelectedIndex)
+            StackListBox.Items.Item(StackListBox.SelectedIndex) = TempItem
+
+            'Update the selected index
+            StackListBox.SelectedIndex = StackListBox.SelectedIndex + 1
+
+            ClearFormItems()
+
+        End If
+    End Sub
+
+    'Clear Stack Button
+    Private Sub ClearButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ClearButton.Click
+
+        If MessageBox.Show("Clear Stack?", "Clear Stack?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
+            StackListBox.Items.Clear()
+            ClearFormItems()
+        End If
+
+    End Sub
+
+
+    'Removes any left over data from the last generation
+    Sub ClearFormItems()
+        TargetTextBox.Clear()
+        AnswerListBox.Items.Clear()
+        AnswerTextBox.Clear()
+    End Sub
+
+
+    'Is random mode on or off
+    Function RandomMode() As Boolean
+        If StackModeComboBox.SelectedIndex = 0 Then
+            Return True
+        Else
+            Return False
+        End If
+    End Function
 
 
 End Class

@@ -272,7 +272,7 @@
             Next
 
             Clipboard.SetText(str)
-
+            MessageBox.Show("Solutions copied to clipboard", "Solutions Copied", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
             MessageBox.Show("No solutions to copy.", "No Solutions", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End If

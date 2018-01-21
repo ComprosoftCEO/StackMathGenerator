@@ -48,12 +48,29 @@ Partial Class MainForm
         Me.TargetMinNumericUpDown = New System.Windows.Forms.NumericUpDown()
         Me.TargetMaxNumericUpDown = New System.Windows.Forms.NumericUpDown()
         Me.ProgrammerLabel = New System.Windows.Forms.Label()
-        Me.Label1 = New System.Windows.Forms.Label()
+        Me.SolutionsLabel = New System.Windows.Forms.Label()
         Me.SolutionsNumericUpDown = New System.Windows.Forms.NumericUpDown()
         Me.SolverButton = New System.Windows.Forms.Button()
         Me.LoadingLabel = New System.Windows.Forms.Label()
         Me.SeedDateTimePicker = New System.Windows.Forms.DateTimePicker()
         Me.SetDateSeedButton = New System.Windows.Forms.Button()
+        Me.ChooseTargetCheckBox = New System.Windows.Forms.CheckBox()
+        Me.VersionLabel = New System.Windows.Forms.Label()
+        Me.CustomStackPanel = New System.Windows.Forms.Panel()
+        Me.ClearButton = New System.Windows.Forms.Button()
+        Me.UpdateButton = New System.Windows.Forms.Button()
+        Me.AddButton = New System.Windows.Forms.Button()
+        Me.MoveDownButton = New System.Windows.Forms.Button()
+        Me.AddStackNumericUpDown = New System.Windows.Forms.NumericUpDown()
+        Me.MoveUpButton = New System.Windows.Forms.Button()
+        Me.RemoveButton = New System.Windows.Forms.Button()
+        Me.RandomStackPanel = New System.Windows.Forms.Panel()
+        Me.AdvancedPanel = New System.Windows.Forms.Panel()
+        Me.StackModeComboBox = New System.Windows.Forms.ComboBox()
+        Me.BasicModeRadioButton = New System.Windows.Forms.RadioButton()
+        Me.AdvancedModeRadioButton = New System.Windows.Forms.RadioButton()
+        Me.DifficultyLabel = New System.Windows.Forms.Label()
+        Me.DifficultyComboBox = New System.Windows.Forms.ComboBox()
         Me.PuzzleGroupBox.SuspendLayout()
         Me.AnswerPanel.SuspendLayout()
         CType(Me.StackSizeNumericUpDown, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -62,6 +79,10 @@ Partial Class MainForm
         CType(Me.TargetMinNumericUpDown, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TargetMaxNumericUpDown, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SolutionsNumericUpDown, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.CustomStackPanel.SuspendLayout()
+        CType(Me.AddStackNumericUpDown, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RandomStackPanel.SuspendLayout()
+        Me.AdvancedPanel.SuspendLayout()
         Me.SuspendLayout()
         '
         'StackMathLabel
@@ -204,7 +225,7 @@ Partial Class MainForm
         '
         Me.SizeLabel.AutoSize = True
         Me.SizeLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SizeLabel.Location = New System.Drawing.Point(28, 404)
+        Me.SizeLabel.Location = New System.Drawing.Point(7, 6)
         Me.SizeLabel.Name = "SizeLabel"
         Me.SizeLabel.Size = New System.Drawing.Size(41, 18)
         Me.SizeLabel.TabIndex = 8
@@ -212,7 +233,7 @@ Partial Class MainForm
         '
         'StackSizeNumericUpDown
         '
-        Me.StackSizeNumericUpDown.Location = New System.Drawing.Point(89, 406)
+        Me.StackSizeNumericUpDown.Location = New System.Drawing.Point(68, 6)
         Me.StackSizeNumericUpDown.Maximum = New Decimal(New Integer() {10, 0, 0, 0})
         Me.StackSizeNumericUpDown.Minimum = New Decimal(New Integer() {4, 0, 0, 0})
         Me.StackSizeNumericUpDown.Name = "StackSizeNumericUpDown"
@@ -222,7 +243,7 @@ Partial Class MainForm
         '
         'CopyButton
         '
-        Me.CopyButton.Location = New System.Drawing.Point(22, 560)
+        Me.CopyButton.Location = New System.Drawing.Point(172, 598)
         Me.CopyButton.Name = "CopyButton"
         Me.CopyButton.Size = New System.Drawing.Size(155, 25)
         Me.CopyButton.TabIndex = 10
@@ -233,7 +254,7 @@ Partial Class MainForm
         '
         Me.RangeLabel.AutoSize = True
         Me.RangeLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RangeLabel.Location = New System.Drawing.Point(28, 441)
+        Me.RangeLabel.Location = New System.Drawing.Point(7, 40)
         Me.RangeLabel.Name = "RangeLabel"
         Me.RangeLabel.Size = New System.Drawing.Size(55, 18)
         Me.RangeLabel.TabIndex = 11
@@ -241,7 +262,7 @@ Partial Class MainForm
         '
         'LowRangeNumericUpDown
         '
-        Me.LowRangeNumericUpDown.Location = New System.Drawing.Point(89, 443)
+        Me.LowRangeNumericUpDown.Location = New System.Drawing.Point(68, 40)
         Me.LowRangeNumericUpDown.Maximum = New Decimal(New Integer() {999, 0, 0, 0})
         Me.LowRangeNumericUpDown.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.LowRangeNumericUpDown.Name = "LowRangeNumericUpDown"
@@ -251,7 +272,7 @@ Partial Class MainForm
         '
         'HighRangeNumericUpDown
         '
-        Me.HighRangeNumericUpDown.Location = New System.Drawing.Point(174, 443)
+        Me.HighRangeNumericUpDown.Location = New System.Drawing.Point(153, 40)
         Me.HighRangeNumericUpDown.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
         Me.HighRangeNumericUpDown.Name = "HighRangeNumericUpDown"
         Me.HighRangeNumericUpDown.Size = New System.Drawing.Size(47, 20)
@@ -262,7 +283,7 @@ Partial Class MainForm
         '
         Me.ToLabel.AutoSize = True
         Me.ToLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ToLabel.Location = New System.Drawing.Point(141, 445)
+        Me.ToLabel.Location = New System.Drawing.Point(120, 41)
         Me.ToLabel.Name = "ToLabel"
         Me.ToLabel.Size = New System.Drawing.Size(26, 18)
         Me.ToLabel.TabIndex = 14
@@ -272,7 +293,7 @@ Partial Class MainForm
         '
         Me.TargetMaxLabel.AutoSize = True
         Me.TargetMaxLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TargetMaxLabel.Location = New System.Drawing.Point(29, 477)
+        Me.TargetMaxLabel.Location = New System.Drawing.Point(4, 108)
         Me.TargetMaxLabel.Name = "TargetMaxLabel"
         Me.TargetMaxLabel.Size = New System.Drawing.Size(54, 18)
         Me.TargetMaxLabel.TabIndex = 15
@@ -282,7 +303,7 @@ Partial Class MainForm
         '
         Me.ToLabel2.AutoSize = True
         Me.ToLabel2.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ToLabel2.Location = New System.Drawing.Point(141, 481)
+        Me.ToLabel2.Location = New System.Drawing.Point(116, 109)
         Me.ToLabel2.Name = "ToLabel2"
         Me.ToLabel2.Size = New System.Drawing.Size(26, 18)
         Me.ToLabel2.TabIndex = 18
@@ -290,7 +311,7 @@ Partial Class MainForm
         '
         'TargetMinNumericUpDown
         '
-        Me.TargetMinNumericUpDown.Location = New System.Drawing.Point(89, 479)
+        Me.TargetMinNumericUpDown.Location = New System.Drawing.Point(64, 108)
         Me.TargetMinNumericUpDown.Maximum = New Decimal(New Integer() {100000000, 0, 0, 0})
         Me.TargetMinNumericUpDown.Minimum = New Decimal(New Integer() {100000000, 0, 0, -2147483648})
         Me.TargetMinNumericUpDown.Name = "TargetMinNumericUpDown"
@@ -300,7 +321,7 @@ Partial Class MainForm
         '
         'TargetMaxNumericUpDown
         '
-        Me.TargetMaxNumericUpDown.Location = New System.Drawing.Point(175, 479)
+        Me.TargetMaxNumericUpDown.Location = New System.Drawing.Point(150, 109)
         Me.TargetMaxNumericUpDown.Maximum = New Decimal(New Integer() {100000000, 0, 0, 0})
         Me.TargetMaxNumericUpDown.Minimum = New Decimal(New Integer() {100000000, 0, 0, -2147483648})
         Me.TargetMaxNumericUpDown.Name = "TargetMaxNumericUpDown"
@@ -319,19 +340,19 @@ Partial Class MainForm
         Me.ProgrammerLabel.Text = "Programmed by; Comprosoft_CEO" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(Bryan McClain)"
         Me.ProgrammerLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
-        'Label1
+        'SolutionsLabel
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(29, 511)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(74, 18)
-        Me.Label1.TabIndex = 21
-        Me.Label1.Text = "Solutions:"
+        Me.SolutionsLabel.AutoSize = True
+        Me.SolutionsLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SolutionsLabel.Location = New System.Drawing.Point(4, 142)
+        Me.SolutionsLabel.Name = "SolutionsLabel"
+        Me.SolutionsLabel.Size = New System.Drawing.Size(74, 18)
+        Me.SolutionsLabel.TabIndex = 21
+        Me.SolutionsLabel.Text = "Solutions:"
         '
         'SolutionsNumericUpDown
         '
-        Me.SolutionsNumericUpDown.Location = New System.Drawing.Point(113, 513)
+        Me.SolutionsNumericUpDown.Location = New System.Drawing.Point(88, 144)
         Me.SolutionsNumericUpDown.Maximum = New Decimal(New Integer() {100000000, 0, 0, 0})
         Me.SolutionsNumericUpDown.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.SolutionsNumericUpDown.Name = "SolutionsNumericUpDown"
@@ -341,10 +362,10 @@ Partial Class MainForm
         '
         'SolverButton
         '
-        Me.SolverButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SolverButton.Location = New System.Drawing.Point(244, 560)
+        Me.SolverButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SolverButton.Location = New System.Drawing.Point(261, 546)
         Me.SolverButton.Name = "SolverButton"
-        Me.SolverButton.Size = New System.Drawing.Size(159, 25)
+        Me.SolverButton.Size = New System.Drawing.Size(152, 33)
         Me.SolverButton.TabIndex = 23
         Me.SolverButton.Text = "Solver"
         Me.SolverButton.UseVisualStyleBackColor = True
@@ -366,7 +387,7 @@ Partial Class MainForm
         Me.SeedDateTimePicker.CustomFormat = ""
         Me.SeedDateTimePicker.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.SeedDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-        Me.SeedDateTimePicker.Location = New System.Drawing.Point(261, 493)
+        Me.SeedDateTimePicker.Location = New System.Drawing.Point(261, 482)
         Me.SeedDateTimePicker.Name = "SeedDateTimePicker"
         Me.SeedDateTimePicker.Size = New System.Drawing.Size(96, 22)
         Me.SeedDateTimePicker.TabIndex = 25
@@ -374,12 +395,197 @@ Partial Class MainForm
         '
         'SetDateSeedButton
         '
-        Me.SetDateSeedButton.Location = New System.Drawing.Point(363, 493)
+        Me.SetDateSeedButton.Location = New System.Drawing.Point(363, 482)
         Me.SetDateSeedButton.Name = "SetDateSeedButton"
         Me.SetDateSeedButton.Size = New System.Drawing.Size(48, 22)
         Me.SetDateSeedButton.TabIndex = 26
         Me.SetDateSeedButton.Text = "Seed"
         Me.SetDateSeedButton.UseVisualStyleBackColor = True
+        '
+        'ChooseTargetCheckBox
+        '
+        Me.ChooseTargetCheckBox.AutoSize = True
+        Me.ChooseTargetCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ChooseTargetCheckBox.Location = New System.Drawing.Point(6, 175)
+        Me.ChooseTargetCheckBox.Name = "ChooseTargetCheckBox"
+        Me.ChooseTargetCheckBox.Size = New System.Drawing.Size(117, 20)
+        Me.ChooseTargetCheckBox.TabIndex = 27
+        Me.ChooseTargetCheckBox.Text = "Choose Target"
+        Me.ChooseTargetCheckBox.UseVisualStyleBackColor = True
+        '
+        'VersionLabel
+        '
+        Me.VersionLabel.AutoSize = True
+        Me.VersionLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.VersionLabel.Location = New System.Drawing.Point(366, 619)
+        Me.VersionLabel.Name = "VersionLabel"
+        Me.VersionLabel.Size = New System.Drawing.Size(60, 13)
+        Me.VersionLabel.TabIndex = 28
+        Me.VersionLabel.Text = "Version 2.3"
+        '
+        'CustomStackPanel
+        '
+        Me.CustomStackPanel.Controls.Add(Me.ClearButton)
+        Me.CustomStackPanel.Controls.Add(Me.UpdateButton)
+        Me.CustomStackPanel.Controls.Add(Me.AddButton)
+        Me.CustomStackPanel.Controls.Add(Me.MoveDownButton)
+        Me.CustomStackPanel.Controls.Add(Me.AddStackNumericUpDown)
+        Me.CustomStackPanel.Controls.Add(Me.MoveUpButton)
+        Me.CustomStackPanel.Controls.Add(Me.RemoveButton)
+        Me.CustomStackPanel.Location = New System.Drawing.Point(3, 32)
+        Me.CustomStackPanel.Name = "CustomStackPanel"
+        Me.CustomStackPanel.Size = New System.Drawing.Size(206, 78)
+        Me.CustomStackPanel.TabIndex = 29
+        Me.CustomStackPanel.Visible = False
+        '
+        'ClearButton
+        '
+        Me.ClearButton.Location = New System.Drawing.Point(160, 6)
+        Me.ClearButton.Name = "ClearButton"
+        Me.ClearButton.Size = New System.Drawing.Size(50, 57)
+        Me.ClearButton.TabIndex = 36
+        Me.ClearButton.Text = "Clear Stack"
+        Me.ClearButton.UseVisualStyleBackColor = True
+        '
+        'UpdateButton
+        '
+        Me.UpdateButton.Location = New System.Drawing.Point(104, 38)
+        Me.UpdateButton.Name = "UpdateButton"
+        Me.UpdateButton.Size = New System.Drawing.Size(54, 26)
+        Me.UpdateButton.TabIndex = 35
+        Me.UpdateButton.Text = "Update"
+        Me.UpdateButton.UseVisualStyleBackColor = True
+        '
+        'AddButton
+        '
+        Me.AddButton.Location = New System.Drawing.Point(3, 39)
+        Me.AddButton.Name = "AddButton"
+        Me.AddButton.Size = New System.Drawing.Size(41, 26)
+        Me.AddButton.TabIndex = 30
+        Me.AddButton.Text = "Add"
+        Me.AddButton.UseVisualStyleBackColor = True
+        '
+        'MoveDownButton
+        '
+        Me.MoveDownButton.Location = New System.Drawing.Point(127, 7)
+        Me.MoveDownButton.Name = "MoveDownButton"
+        Me.MoveDownButton.Size = New System.Drawing.Size(31, 26)
+        Me.MoveDownButton.TabIndex = 34
+        Me.MoveDownButton.Text = "▼"
+        Me.MoveDownButton.UseVisualStyleBackColor = True
+        '
+        'AddStackNumericUpDown
+        '
+        Me.AddStackNumericUpDown.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.AddStackNumericUpDown.Location = New System.Drawing.Point(48, 39)
+        Me.AddStackNumericUpDown.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.AddStackNumericUpDown.Name = "AddStackNumericUpDown"
+        Me.AddStackNumericUpDown.Size = New System.Drawing.Size(51, 24)
+        Me.AddStackNumericUpDown.TabIndex = 31
+        Me.AddStackNumericUpDown.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'MoveUpButton
+        '
+        Me.MoveUpButton.Location = New System.Drawing.Point(3, 7)
+        Me.MoveUpButton.Name = "MoveUpButton"
+        Me.MoveUpButton.Size = New System.Drawing.Size(31, 26)
+        Me.MoveUpButton.TabIndex = 33
+        Me.MoveUpButton.Text = "▲"
+        Me.MoveUpButton.UseVisualStyleBackColor = True
+        '
+        'RemoveButton
+        '
+        Me.RemoveButton.Location = New System.Drawing.Point(47, 7)
+        Me.RemoveButton.Name = "RemoveButton"
+        Me.RemoveButton.Size = New System.Drawing.Size(67, 26)
+        Me.RemoveButton.TabIndex = 32
+        Me.RemoveButton.Text = "Remove"
+        Me.RemoveButton.UseVisualStyleBackColor = True
+        '
+        'RandomStackPanel
+        '
+        Me.RandomStackPanel.Controls.Add(Me.SizeLabel)
+        Me.RandomStackPanel.Controls.Add(Me.StackSizeNumericUpDown)
+        Me.RandomStackPanel.Controls.Add(Me.RangeLabel)
+        Me.RandomStackPanel.Controls.Add(Me.LowRangeNumericUpDown)
+        Me.RandomStackPanel.Controls.Add(Me.HighRangeNumericUpDown)
+        Me.RandomStackPanel.Controls.Add(Me.ToLabel)
+        Me.RandomStackPanel.Location = New System.Drawing.Point(-4, 35)
+        Me.RandomStackPanel.Name = "RandomStackPanel"
+        Me.RandomStackPanel.Size = New System.Drawing.Size(205, 73)
+        Me.RandomStackPanel.TabIndex = 30
+        '
+        'AdvancedPanel
+        '
+        Me.AdvancedPanel.Controls.Add(Me.StackModeComboBox)
+        Me.AdvancedPanel.Controls.Add(Me.TargetMaxLabel)
+        Me.AdvancedPanel.Controls.Add(Me.TargetMinNumericUpDown)
+        Me.AdvancedPanel.Controls.Add(Me.ToLabel2)
+        Me.AdvancedPanel.Controls.Add(Me.TargetMaxNumericUpDown)
+        Me.AdvancedPanel.Controls.Add(Me.ChooseTargetCheckBox)
+        Me.AdvancedPanel.Controls.Add(Me.SolutionsLabel)
+        Me.AdvancedPanel.Controls.Add(Me.SolutionsNumericUpDown)
+        Me.AdvancedPanel.Controls.Add(Me.RandomStackPanel)
+        Me.AdvancedPanel.Controls.Add(Me.CustomStackPanel)
+        Me.AdvancedPanel.Location = New System.Drawing.Point(17, 425)
+        Me.AdvancedPanel.Name = "AdvancedPanel"
+        Me.AdvancedPanel.Size = New System.Drawing.Size(214, 207)
+        Me.AdvancedPanel.TabIndex = 31
+        Me.AdvancedPanel.Visible = False
+        '
+        'StackModeComboBox
+        '
+        Me.StackModeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.StackModeComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.StackModeComboBox.FormattingEnabled = True
+        Me.StackModeComboBox.Items.AddRange(New Object() {"Random Stack", "Custom Stack"})
+        Me.StackModeComboBox.Location = New System.Drawing.Point(38, 3)
+        Me.StackModeComboBox.Name = "StackModeComboBox"
+        Me.StackModeComboBox.Size = New System.Drawing.Size(150, 26)
+        Me.StackModeComboBox.TabIndex = 28
+        '
+        'BasicModeRadioButton
+        '
+        Me.BasicModeRadioButton.AutoSize = True
+        Me.BasicModeRadioButton.Checked = True
+        Me.BasicModeRadioButton.Location = New System.Drawing.Point(23, 404)
+        Me.BasicModeRadioButton.Name = "BasicModeRadioButton"
+        Me.BasicModeRadioButton.Size = New System.Drawing.Size(81, 17)
+        Me.BasicModeRadioButton.TabIndex = 32
+        Me.BasicModeRadioButton.TabStop = True
+        Me.BasicModeRadioButton.Text = "Basic Mode"
+        Me.BasicModeRadioButton.UseVisualStyleBackColor = True
+        '
+        'AdvancedModeRadioButton
+        '
+        Me.AdvancedModeRadioButton.AutoSize = True
+        Me.AdvancedModeRadioButton.Location = New System.Drawing.Point(129, 404)
+        Me.AdvancedModeRadioButton.Name = "AdvancedModeRadioButton"
+        Me.AdvancedModeRadioButton.Size = New System.Drawing.Size(104, 17)
+        Me.AdvancedModeRadioButton.TabIndex = 33
+        Me.AdvancedModeRadioButton.Text = "Advanced Mode"
+        Me.AdvancedModeRadioButton.UseVisualStyleBackColor = True
+        '
+        'DifficultyLabel
+        '
+        Me.DifficultyLabel.AutoSize = True
+        Me.DifficultyLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DifficultyLabel.Location = New System.Drawing.Point(72, 484)
+        Me.DifficultyLabel.Name = "DifficultyLabel"
+        Me.DifficultyLabel.Size = New System.Drawing.Size(82, 24)
+        Me.DifficultyLabel.TabIndex = 31
+        Me.DifficultyLabel.Text = "Difficulty:"
+        '
+        'DifficultyComboBox
+        '
+        Me.DifficultyComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.DifficultyComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DifficultyComboBox.FormattingEnabled = True
+        Me.DifficultyComboBox.Items.AddRange(New Object() {"Easy", "Normal", "Intermediate", "Advanced", "Expert"})
+        Me.DifficultyComboBox.Location = New System.Drawing.Point(34, 518)
+        Me.DifficultyComboBox.Name = "DifficultyComboBox"
+        Me.DifficultyComboBox.Size = New System.Drawing.Size(157, 33)
+        Me.DifficultyComboBox.TabIndex = 34
         '
         'MainForm
         '
@@ -387,25 +593,19 @@ Partial Class MainForm
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(102, Byte), Integer), CType(CType(153, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.ClientSize = New System.Drawing.Size(425, 596)
+        Me.ClientSize = New System.Drawing.Size(426, 632)
+        Me.Controls.Add(Me.DifficultyComboBox)
+        Me.Controls.Add(Me.DifficultyLabel)
+        Me.Controls.Add(Me.CopyButton)
+        Me.Controls.Add(Me.AdvancedModeRadioButton)
+        Me.Controls.Add(Me.BasicModeRadioButton)
+        Me.Controls.Add(Me.AdvancedPanel)
+        Me.Controls.Add(Me.VersionLabel)
         Me.Controls.Add(Me.SetDateSeedButton)
         Me.Controls.Add(Me.SeedDateTimePicker)
         Me.Controls.Add(Me.LoadingLabel)
         Me.Controls.Add(Me.SolverButton)
-        Me.Controls.Add(Me.SolutionsNumericUpDown)
-        Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.ProgrammerLabel)
-        Me.Controls.Add(Me.TargetMaxNumericUpDown)
-        Me.Controls.Add(Me.ToLabel2)
-        Me.Controls.Add(Me.TargetMinNumericUpDown)
-        Me.Controls.Add(Me.TargetMaxLabel)
-        Me.Controls.Add(Me.ToLabel)
-        Me.Controls.Add(Me.HighRangeNumericUpDown)
-        Me.Controls.Add(Me.LowRangeNumericUpDown)
-        Me.Controls.Add(Me.RangeLabel)
-        Me.Controls.Add(Me.CopyButton)
-        Me.Controls.Add(Me.StackSizeNumericUpDown)
-        Me.Controls.Add(Me.SizeLabel)
         Me.Controls.Add(Me.GenerateButton)
         Me.Controls.Add(Me.PuzzleGroupBox)
         Me.Controls.Add(Me.PuzzleGeneratorLabel)
@@ -426,6 +626,12 @@ Partial Class MainForm
         CType(Me.TargetMinNumericUpDown, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TargetMaxNumericUpDown, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.SolutionsNumericUpDown, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.CustomStackPanel.ResumeLayout(False)
+        CType(Me.AddStackNumericUpDown, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RandomStackPanel.ResumeLayout(False)
+        Me.RandomStackPanel.PerformLayout()
+        Me.AdvancedPanel.ResumeLayout(False)
+        Me.AdvancedPanel.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -451,7 +657,7 @@ Partial Class MainForm
     Friend WithEvents TargetMinNumericUpDown As System.Windows.Forms.NumericUpDown
     Friend WithEvents TargetMaxNumericUpDown As System.Windows.Forms.NumericUpDown
     Friend WithEvents ProgrammerLabel As System.Windows.Forms.Label
-    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents SolutionsLabel As System.Windows.Forms.Label
     Friend WithEvents SolutionsNumericUpDown As System.Windows.Forms.NumericUpDown
     Friend WithEvents SolverButton As System.Windows.Forms.Button
     Friend WithEvents AnswerPanel As System.Windows.Forms.Panel
@@ -461,5 +667,22 @@ Partial Class MainForm
     Friend WithEvents LoadingLabel As System.Windows.Forms.Label
     Friend WithEvents SeedDateTimePicker As System.Windows.Forms.DateTimePicker
     Friend WithEvents SetDateSeedButton As System.Windows.Forms.Button
+    Friend WithEvents ChooseTargetCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents VersionLabel As System.Windows.Forms.Label
+    Friend WithEvents CustomStackPanel As System.Windows.Forms.Panel
+    Friend WithEvents ClearButton As System.Windows.Forms.Button
+    Friend WithEvents UpdateButton As System.Windows.Forms.Button
+    Friend WithEvents MoveDownButton As System.Windows.Forms.Button
+    Friend WithEvents MoveUpButton As System.Windows.Forms.Button
+    Friend WithEvents RemoveButton As System.Windows.Forms.Button
+    Friend WithEvents AddStackNumericUpDown As System.Windows.Forms.NumericUpDown
+    Friend WithEvents AddButton As System.Windows.Forms.Button
+    Friend WithEvents RandomStackPanel As System.Windows.Forms.Panel
+    Friend WithEvents AdvancedPanel As System.Windows.Forms.Panel
+    Friend WithEvents StackModeComboBox As System.Windows.Forms.ComboBox
+    Friend WithEvents BasicModeRadioButton As System.Windows.Forms.RadioButton
+    Friend WithEvents AdvancedModeRadioButton As System.Windows.Forms.RadioButton
+    Friend WithEvents DifficultyLabel As System.Windows.Forms.Label
+    Friend WithEvents DifficultyComboBox As System.Windows.Forms.ComboBox
 
 End Class
