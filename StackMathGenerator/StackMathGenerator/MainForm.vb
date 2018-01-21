@@ -13,7 +13,7 @@ Public Class MainForm
     'Switch the visibility of the answer text box
     Private Sub AnswerCheckBox_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AnswerCheckBox.CheckedChanged
 
-        AnswerTextBox.Visible = sender.checked
+        AnswerPanel.Visible = sender.checked
 
     End Sub
 
@@ -34,6 +34,9 @@ Public Class MainForm
 
     'Generate puzzle
     Private Sub GenerateButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GenerateButton.Click
+
+        LoadingLabel.Visible = True
+        Application.DoEvents()
 
         Dim Picks As Integer = 0
 
@@ -64,10 +67,12 @@ Repick:
         'Make sure there is at least one value to pick from
         If PickList.Count = 0 Then
             Picks += 1
-            If Picks < 5 Then
+            'Try 3 times to generate
+            If Picks < 3 Then
                 GoTo Repick
             Else
                 MessageBox.Show("Unable to generate a puzzle with the given parameters.", "Problem Generating Puzzle.", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                LoadingLabel.Visible = False
                 Exit Sub
             End If
         End If
@@ -81,7 +86,24 @@ Repick:
         TargetTextBox.Text = PickList.Item(Answer).ToString("n0")
 
         'Get the operation and export to answer
-        AnswerTextBox.Text = OperationResults.Item(PickList.Item(Answer).ToString).ToString
+        AnswerListBox.Items.Clear()
+
+        Dim TempStr As String = ""
+        Dim AllAnswerString As String = OperationResults.Get(PickList.Item(Answer).ToString).ToString & ","
+
+        'Break apart the seperate answers
+        For Each c As Char In AllAnswerString
+            If c = "," Then
+                AnswerListBox.Items.Add(TempStr)
+                TempStr = ""
+            Else
+                TempStr += c
+            End If
+        Next
+
+        'Show the number of answers
+        AnswerTextBox.Text = AnswerListBox.Items.Count
+
 
 
         'Export the list of numbers
@@ -92,6 +114,9 @@ Repick:
 
         'Hide the answer
         AnswerCheckBox.Checked = False
+
+        'Hide the loading message
+        LoadingLabel.Visible = False
 
     End Sub
 
@@ -139,11 +164,9 @@ Repick:
                 OperationString += GetOperationChar(Operations(i))
             Next
 
-            Try
-                OperationResults.Item(Update.ToString) = OperationString.ToString
-            Catch ex As Exception
-                OperationResults.Add(Update.ToString, OperationString.ToString)
-            End Try
+            'Add to the list of operations
+            OperationResults.Add(Update.ToString, OperationString.ToString)
+
 
             'Update the operations array
             EndArray = UpdateOperations()
@@ -251,11 +274,15 @@ Repick:
             Next
 
             'Add the target number
-            str += Environment.NewLine & "Target Number:" & Environment.NewLine & TargetTextBox.Text.ToString
+            str += Environment.NewLine & "Target Number: " & TargetTextBox.Text.ToString
 
             'If the answer is visible, add the answer
             If AnswerCheckBox.Checked = True Then
-                str += Environment.NewLine & Environment.NewLine & "Answer:" & Environment.NewLine & AnswerTextBox.Text.ToString
+                str += Environment.NewLine & Environment.NewLine & "Answers: " & AnswerTextBox.Text.ToString & Environment.NewLine
+
+                For i = 0 To AnswerListBox.Items.Count - 1
+                    str += (AnswerListBox.Items.Item(i).ToString) & Environment.NewLine
+                Next
             End If
 
             Clipboard.SetText(str)
@@ -265,5 +292,8 @@ Repick:
 
     End Sub
 
- 
+    'Open Solver Form
+    Private Sub SolverButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SolverButton.Click
+        SolverForm.Show()
+    End Sub
 End Class
